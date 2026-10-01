@@ -1,5 +1,5 @@
 {
-  "name": "template-web",
+  "name": "odin-portfolio",
   "version": "1.0.0",
   "description": "Creating a template for future web dev projects",
   "main": "index.js",
@@ -12,16 +12,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/syafaatsaat/template-web.git"
+    "url": "git+https://github.com/syafaatsaat/odin-portfolio.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/syafaatsaat/template-web/issues"
+    "url": "https://github.com/syafaatsaat/odin-portfolio/issues"
   },
-  "homepage": "https://github.com/syafaatsaat/template-web#readme",
+  "homepage": "https://github.com/syafaatsaat/odin-portfolio#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.29.5",
     "css-loader": "^7.1.4",
