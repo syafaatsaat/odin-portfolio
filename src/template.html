@@ -10,117 +10,171 @@
     <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   </head>
   <body>
-    <header>
-      <a href="#" id="home-link" class="silkscreen-bold">syafaat_saat.dev</a>
-      <nav id="navbar">
-        <ul>
-          <li>
-            <a href="#">About</a>
-          </li>
-          <li>
-            <a href="#">Projects</a>
-          </li>
-          <li>
-            <a href="#">Skills</a>
-          </li>
-          <li>
-            <a href="#">Contact</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
-    <hr>
-    <main>
-      <!-- ABOUT ------------------------------------------------------------->
-      <section id="about">
-        <h1>01 / About</h1>
-        <h2>Explorer Profile</h2>
-        <div class="about-div">
-          <div class="profile-pic">
-            <img src="./img/thumbs_up.png" alt="Display Picture">
-          </div>
-          <table>
-            <tr>
-              <th>Callsign</th>
-              <td>Syafaat Saat</td>
-            </tr>
-            <tr>
-              <th>Role</th>
-              <td>Web Developer</td>
-            </tr>
-            <tr>
-              <th>Base</th>
-              <td>Singapore</td>
-            </tr>
-            <tr>
-              <th>Status</th>
-              <td>Open to Missions</td>
-            </tr>
-          </table>
-        </div>
-        <p>I build fun, fast websites. Check the mission log below to see more.</p>
-      </section>
-      <hr>
-      <!-- PROJECTS ---------------------------------------------------------->
-      <section id="projects">
-        <h1>02 / Projects</h1>
-        <h2>Mission Log</h2>
-        <div class="project-grid">
-          <article>
-            <div class="webpage-ss">
+    <!-- Decorative starfield -->
+    <div class="stars" aria-hidden="true">
+      <span style="left: 8%; top: 120px"></span>
+      <span style="left: 46%; top: 220px"></span>
+      <span style="left: 90%; top: 160px"></span>
+      <span style="left: 70%; top: 420px"></span>
+      <span style="left: 25%; top: 520px"></span>
+      <span style="left: 82%; top: 760px"></span>
+      <span style="left: 4%; top: 980px"></span>
+      <span style="left: 58%; top: 1240px"></span>
+      <span style="left: 94%; top: 1500px"></span>
+      <span style="left: 18%; top: 1780px"></span>
+    </div>
 
+    <div class="page">
+      <header>
+        <a href="#about" id="home-link" class="pixel">syafaat_saat.dev</a>
+        <nav id="navbar" class="mono">
+          <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <span id="mission-clock">T+00:00:00</span>
+        </nav>
+      </header>
+
+      <main>
+        <!-- ABOUT ----------------------------------------------------------->
+        <section id="about">
+          <p class="label mono">01 / About</p>
+          <h2 class="pixel">Explorer Profile</h2>
+          <div class="about-row">
+            <div class="badge">
+              <dl class="mono">
+                <dt>Callsign</dt>
+                <dd>Syafaat Saat</dd>
+                <dt>Role</dt>
+                <dd>Web Developer</dd>
+                <dt>Base</dt>
+                <dd>Singapore</dd>
+                <dt>Status</dt>
+                <dd class="status">Open to Missions</dd>
+              </dl>
             </div>
-            <h3>Project Name</h3>
-            <p>Lorem ibsul melody on your lips</p>
-            <div class="project-links">
-              <a href="#">Live Site</a>
-              <button>
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" />
-              </button>
+            <div class="orb">
+              <img src="./img/thumbs_up.png" alt="Display Picture" class="profile-pic">
             </div>
-          </article>
-        </div>
-      </section>
-      <hr>
-      <!-- SKILLS ------------------------------------------------------------>
-      <section id="skills">
-        <h1>03 / Skills</h1>
-        <h2>Onboard Equipment</h2>
-        <table>
-          <tr>
-            <th>Bay A / Programming Languages</th>
-            <td>HTML CSS JavaScript React Node</td>
-          </tr>
-          <tr>
-            <th>Bay B / Tools</th>
-            <td>Visual Studio Code</td>
-          </tr>
-          <tr>
-            <th>Bay C / Principles</th>
-            <td>Object-Oriented Programming</td>
-          </tr>
-        </table>
-      </section>
-      <hr>
-      <!-- CONTACT ----------------------------------------------------------->
-      <section id="contact">
-        <h1>04 / Contact</h1>
-        <h2>Comms Info</h2>
-        <p>Signal is strong. Awaiting your transmission.</p>
-        <div class="contact-links">
-          <button>Transmit Email</button>
-          <button>
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linkedin/linkedin-plain.svg" />
-          </button>
-          <button>
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" />
-          </button>
-        </div>
-      </section>
-    </main>
-    <hr>
-    <footer>
-      <p>End Of Transmission</p>
-    </footer>
+          </div>
+          <p class="desc">I build fun, fast websites. Check the mission log below to see more.</p>
+        </section>
+
+        <!-- PROJECTS -------------------------------------------------------->
+        <section id="projects">
+          <p class="label mono">02 / Projects</p>
+          <h2 class="pixel">Mission Log</h2>
+          <div class="project-grid">
+            <article class="card">
+              <div class="card-head mono">
+                <span>Mission 01</span>
+                <span class="status">Complete</span>
+              </div>
+              <div class="webpage-ss">
+                <div class="toolbar"><i></i><i></i><i></i></div>
+                <div class="screen mono">Screenshot</div>
+              </div>
+              <div class="tags mono">
+                <span>Web App</span>
+                <span class="alt">JavaScript</span>
+              </div>
+              <h3 class="pixel">Project Name</h3>
+              <p>Lorem ibsul melody on your lips</p>
+              <div class="project-links mono">
+                <a href="#" class="btn">Live Site</a>
+                <a href="#" class="btn">GitHub</a>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card-head mono">
+                <span>Mission 02</span>
+                <span class="status">Complete</span>
+              </div>
+              <div class="webpage-ss">
+                <div class="toolbar"><i></i><i></i><i></i></div>
+                <div class="screen mono">Screenshot</div>
+              </div>
+              <div class="tags mono">
+                <span>Web App</span>
+                <span class="alt">JavaScript</span>
+              </div>
+              <h3 class="pixel">Project Name</h3>
+              <p>Lorem ibsul melody on your lips</p>
+              <div class="project-links mono">
+                <a href="#" class="btn">Live Site</a>
+                <a href="#" class="btn">GitHub</a>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card-head mono">
+                <span>Mission 03</span>
+                <span class="status">Complete</span>
+              </div>
+              <div class="webpage-ss">
+                <div class="toolbar"><i></i><i></i><i></i></div>
+                <div class="screen mono">Screenshot</div>
+              </div>
+              <div class="tags mono">
+                <span>Web App</span>
+                <span class="alt">JavaScript</span>
+              </div>
+              <h3 class="pixel">Project Name</h3>
+              <p>Lorem ibsul melody on your lips</p>
+              <div class="project-links mono">
+                <a href="#" class="btn">Live Site</a>
+                <a href="#" class="btn">GitHub</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- SKILLS ---------------------------------------------------------->
+        <section id="skills">
+          <p class="label mono">03 / Skills</p>
+          <h2 class="pixel">Onboard Equipment</h2>
+          <div class="bay">
+            <span class="bay-label mono">Bay A / Languages</span>
+            <div class="tags mono">
+              <span>HTML</span>
+              <span>CSS</span>
+              <span>JavaScript</span>
+              <span>React</span>
+              <span>Node</span>
+            </div>
+          </div>
+          <div class="bay">
+            <span class="bay-label mono">Bay B / Tools</span>
+            <div class="tags mono">
+              <span class="alt">Visual Studio Code</span>
+            </div>
+          </div>
+          <div class="bay">
+            <span class="bay-label mono">Bay C / Principles</span>
+            <div class="tags mono">
+              <span>Object-Oriented Programming</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONTACT --------------------------------------------------------->
+        <section id="contact">
+          <p class="label mono">04 / Contact</p>
+          <h2 class="pixel">Comms Info</h2>
+          <p class="desc">Signal is strong. Awaiting your transmission.</p>
+          <div class="contact-links mono">
+            <a href="mailto:" class="btn primary">Transmit Email</a>
+            <a href="#" class="btn">LinkedIn</a>
+            <a href="https://github.com/syafaatsaat" class="btn">GitHub</a>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <p class="mono">End Of Transmission</p>
+      </footer>
+    </div>
   </body>
 </html>
