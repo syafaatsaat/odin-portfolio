@@ -7,8 +7,10 @@
   --card-bg: #151a30;
   --purple-ash-cl: #4a5170;
   --blue-ash-cl: #2a3050;
+  --blue-cl: #3d7cf1;
   --mint-cl: #4de3c1;
   --coral-cl: #ff6b61;
+  --pink-cl: rgb(248, 155, 170);
   --white-cl: #e8ecf5;
   --grey-cl: #a9b0c6;
   --muted-cl: #8b93ad;
@@ -49,6 +51,7 @@ body {
 }
 
 .pixel {
+  margin-top: 0;
   font-family: "Silkscreen", sans-serif;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -113,9 +116,19 @@ h2 {
   font-size: 12px;
 }
 
-.tags span.alt {
+.tags.backend span {
   border-color: var(--coral-cl);
   color: var(--coral-cl);
+}
+
+.tags.tools span {
+  border-color: var(--blue-cl);
+  color: var(--blue-cl);
+}
+
+.tags.principles span {
+  border-color: var(--pink-cl);
+  color: var(--pink-cl);
 }
 
 /* Buttons */
@@ -275,7 +288,7 @@ header {
 
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
 
@@ -320,16 +333,25 @@ header {
 }
 
 .webpage-ss .screen {
-  height: 120px;
+  aspect-ratio: 16 / 9;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--purple-ash-cl);
   font-size: 11px;
+  overflow: hidden;
+}
+
+.webpage-ss .screen img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .card h3 {
-  margin: 14px 0 4px;
+  margin: 0px 0 4px;
   font-size: 16px;
   letter-spacing: 0.1em;
   color: var(--white-cl);
@@ -359,15 +381,22 @@ header {
 
 .bay {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 16px;
   flex-wrap: wrap;
   margin-top: 14px;
 }
 
 .bay-label {
+  flex: none;
   width: 220px;
   color: var(--muted-cl);
+}
+
+/* Tags take the remaining width and wrap within their own column */
+.bay .tags {
+  flex: 1;
+  min-width: 0;
 }
 
 /* ============================================
@@ -410,6 +439,10 @@ footer p {
 
   #mission-clock {
     display: none;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
   }
 
   .bay-label {
