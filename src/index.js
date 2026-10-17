@@ -44,3 +44,77 @@ document.addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") setMenuOpen(false);
 });
+
+// Scroll reveal: fade content up as it comes on screen, staggered within each group
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+if (!reduceMotion && "IntersectionObserver" in window) {
+  const groups = [
+    ...document.querySelectorAll("section"),
+    ...document.querySelectorAll(".project-grid, .bay, .tags"),
+  ];
+
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("visible");
+        revealObserver.unobserve(entry.target);
+      });
+    },
+    { rootMargin: "0px 0px -10% 0px" },
+  );
+
+  groups.forEach((group) => {
+    // Containers don't move as one block; their own children animate instead
+    const children = [...group.children].filter(
+      (el) => !el.matches(".project-grid, .bay, .tags"),
+    );
+    children.forEach((el, i) => {
+      el.classList.add("reveal");
+      el.style.setProperty("--i", Math.min(i, 6));
+      revealObserver.observe(el);
+    });
+  });
+}
+
+// Active nav link: highlight the section currently being read
+const sections = [...document.querySelectorAll("main section")];
+const navAnchors = [...document.querySelectorAll("#nav-links a")];
+const header = document.querySelector("header");
+
+function updateActiveLink() {
+  const line = header.offsetHeight + window.innerHeight / 3;
+  const atBottom =
+    window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+
+  // The last section whose top has passed the reading line (or the last one at page bottom)
+  let current = sections[0];
+  sections.forEach((section) => {
+    if (section.getBoundingClientRect().top <= line) current = section;
+  });
+  if (atBottom) current = sections[sections.length - 1];
+
+  navAnchors.forEach((a) => {
+    const isActive = a.getAttribute("href") === `#${current.id}`;
+    a.classList.toggle("active", isActive);
+    if (isActive) a.setAttribute("aria-current", "location");
+    else a.removeAttribute("aria-current");
+  });
+}
+
+let ticking = false;
+window.addEventListener(
+  "scroll",
+  () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      updateActiveLink();
+      ticking = false;
+    });
+  },
+  { passive: true },
+);
+window.addEventListener("resize", updateActiveLink);
+updateActiveLink();
