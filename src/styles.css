@@ -45,7 +45,7 @@ body {
 /* Font helpers */
 .mono {
   font-family: "Space Mono", monospace;
-  font-size: 13px;
+  font-size: 16px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -88,12 +88,13 @@ section:last-of-type {
 }
 
 h2 {
-  font-size: 32px;
+  font-size: 38px;
   color: var(--white-cl);
   margin: 0 0 20px;
 }
 
 .desc {
+  font-family: "JetBrains Mono", monospace;
   color: var(--grey-cl);
   margin: 0 0 20px;
 }
@@ -107,28 +108,6 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-}
-
-.tags span {
-  border: 2px solid var(--mint-cl);
-  color: var(--mint-cl);
-  padding: 1px 8px;
-  font-size: 12px;
-}
-
-.tags.backend span {
-  border-color: var(--coral-cl);
-  color: var(--coral-cl);
-}
-
-.tags.tools span {
-  border-color: var(--blue-cl);
-  color: var(--blue-cl);
-}
-
-.tags.principles span {
-  border-color: var(--pink-cl);
-  color: var(--pink-cl);
 }
 
 /* Buttons */
@@ -352,15 +331,17 @@ header {
 
 .card h3 {
   margin: 0px 0 4px;
-  font-size: 16px;
+  font-size: 24px;
   letter-spacing: 0.1em;
   color: var(--white-cl);
+  font-weight: 400;
 }
 
 .card p {
   margin: 0 0 14px;
   color: var(--grey-cl);
-  font-size: 14px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -373,6 +354,75 @@ header {
 .project-links .btn {
   flex: 1;
   padding: 8px;
+}
+
+/* Future mission placeholder: numbered automatically after the last card */
+.project-grid {
+  counter-reset: mission;
+}
+
+.project-grid > * {
+  counter-increment: mission;
+}
+
+.future {
+  grid-column: 1 / -1; /* All rows full: thin strip below the grid */
+  border: 2px dashed var(--blue-ash-cl);
+  color: var(--purple-ash-cl);
+  padding: 12px;
+}
+
+/* Strip: everything reads as one line */
+.future-head {
+  display: inline;
+}
+
+.future-mission::before {
+  content: "Mission " counter(mission, decimal-leading-zero) ":";
+}
+
+.future-title::after {
+  content: ".";
+}
+
+/* Odd number of cards: fill the empty slot in the last row, laid out like a card */
+@media (min-width: 641px) {
+  .future:nth-child(even) {
+    grid-column: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 14px;
+  }
+
+  /* Same header row as .card-head */
+  .future:nth-child(even) .future-head {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted-cl);
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--blue-ash-cl);
+  }
+
+  .future:nth-child(even) .future-mission::before {
+    content: "Mission " counter(mission, decimal-leading-zero);
+  }
+
+  /* .future:nth-child(even) .future-title {
+    color: var(--coral-cl);
+  } */
+
+  .future:nth-child(even) .future-title::after {
+    content: none;
+  }
+
+  .future:nth-child(even) .future-code {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    text-align: center;
+  }
 }
 
 /* ============================================
@@ -393,10 +443,52 @@ header {
   color: var(--muted-cl);
 }
 
+.bay-label span {
+  font-weight: bold;
+}
+
 /* Tags take the remaining width and wrap within their own column */
 .bay .tags {
   flex: 1;
   min-width: 0;
+}
+
+.tags span {
+  border: 2px solid var(--mint-cl);
+  color: var(--mint-cl);
+  padding: 1px 8px;
+  font-size: 16px;
+}
+
+.tags.backend span {
+  border-color: var(--coral-cl);
+  color: var(--coral-cl);
+}
+
+.tags.tools span {
+  border-color: var(--blue-cl);
+  color: var(--blue-cl);
+}
+
+.tags.principles span {
+  border-color: var(--pink-cl);
+  color: var(--pink-cl);
+}
+
+.frontend {
+  color: var(--mint-cl);
+}
+
+.backend {
+  color: var(--coral-cl);
+}
+
+.tools {
+  color: var(--blue-cl);
+}
+
+.principles {
+  color: var(--pink-cl);
 }
 
 /* ============================================
@@ -441,10 +533,14 @@ footer p {
     display: none;
   }
 
+  /* Stack the profile picture above the badge, centered */
+  .about-row {
+    flex-direction: column;
+  }
+
   .project-grid {
     grid-template-columns: 1fr;
   }
-
   .bay-label {
     width: 100%;
   }
