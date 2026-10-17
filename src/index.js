@@ -18,3 +18,29 @@ function tick() {
 
 tick();
 setInterval(tick, 1000);
+
+// Burger menu (small screens): toggle the nav dropdown
+const menuToggle = document.querySelector("#menu-toggle");
+const navLinks = document.querySelector("#nav-links");
+
+function setMenuOpen(open) {
+  navLinks.classList.toggle("open", open);
+  menuToggle.setAttribute("aria-expanded", String(open));
+}
+
+menuToggle.addEventListener("click", () => {
+  setMenuOpen(!navLinks.classList.contains("open"));
+});
+
+// Close after picking a link, clicking elsewhere, or pressing Escape
+navLinks.addEventListener("click", (e) => {
+  if (e.target.closest("a")) setMenuOpen(false);
+});
+
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("#navbar")) setMenuOpen(false);
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") setMenuOpen(false);
+});

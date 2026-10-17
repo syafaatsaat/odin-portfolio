@@ -148,6 +148,7 @@ header {
   gap: 12px;
   padding: 18px 0;
   border-bottom: 2px solid var(--blue-ash-cl);
+  position: relative;
 }
 
 #home-link {
@@ -189,6 +190,60 @@ header {
 
 #mission-clock {
   color: var(--mint-cl);
+}
+
+/* Burger button: only shown on small screens */
+#menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 38px;
+  height: 38px;
+  padding: 0 8px;
+  background: none;
+  border: 2px solid var(--purple-ash-cl);
+  cursor: pointer;
+}
+
+#menu-toggle span {
+  display: block;
+  height: 2px;
+  background-color: var(--white-cl);
+  transition:
+    transform 0.25s ease,
+    opacity 0.2s ease;
+}
+
+/* Open: outer bars meet in the middle (2px bar + 4px gap = 6px) and cross into an X */
+#menu-toggle[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+#menu-toggle[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+#menu-toggle[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #menu-toggle span,
+  #navbar ul {
+    transition: none !important;
+  }
+}
+
+#menu-toggle:hover,
+#menu-toggle[aria-expanded="true"] {
+  border-color: var(--mint-cl);
+}
+
+#menu-toggle:hover span,
+#menu-toggle[aria-expanded="true"] span {
+  background-color: var(--mint-cl);
 }
 
 /* ============================================
@@ -525,8 +580,66 @@ footer p {
     font-size: 24px;
   }
 
+  /* Smaller logo so the burger fits on the same line, pinned to the right */
+  #home-link {
+    font-size: 16px;
+  }
+
+  #navbar {
+    margin-left: auto;
+  }
+
+  #menu-toggle {
+    display: flex;
+  }
+
+  /* Links become a dropdown under the header, aligned to the right */
   #navbar ul {
-    gap: 14px;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 10;
+    flex-direction: column;
+    gap: 0;
+    min-width: 180px;
+    border: 2px solid var(--purple-ash-cl);
+    border-top: none;
+    background-color: var(--card-bg);
+    /* Closed: rolled up behind the header line. visibility waits for the roll-up to finish */
+    visibility: hidden;
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+    transition:
+      clip-path 0.3s ease,
+      opacity 0.3s ease,
+      visibility 0s linear 0.3s;
+  }
+
+  /* Open: unroll downwards */
+  #navbar ul.open {
+    visibility: visible;
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transition:
+      clip-path 0.3s ease,
+      opacity 0.3s ease,
+      visibility 0s;
+  }
+
+  #navbar li + li {
+    border-top: 2px solid var(--blue-ash-cl);
+  }
+
+  #navbar ul a {
+    display: block;
+    padding: 12px 16px;
+    border-bottom: none;
+    text-align: right;
+  }
+
+  #navbar ul a:hover,
+  #navbar ul a.active {
+    background-color: var(--blue-ash-cl);
   }
 
   #mission-clock {
