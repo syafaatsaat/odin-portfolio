@@ -5,6 +5,7 @@
 :root {
   --dark-bg: #0b0e1d;
   --card-bg: #151a30;
+  --card-bg-transparent:rgba(21, 26, 48, 0.719);
   --purple-ash-cl: #4a5170;
   --blue-ash-cl: #2a3050;
   --blue-cl: #3d7cf1;
@@ -121,6 +122,34 @@ body {
   transform: none;
 }
 
+/* Shooting star: index.js drops one in every so often, then removes it when the animation ends.
+   Fixed to the viewport so it always crosses the visible sky, but still painted behind the page */
+.stars .shooting-star {
+  position: fixed;
+  width: 90px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--white-cl));
+  opacity: 0;
+  transform-origin: right center;
+  animation: shoot 1.1s ease-in forwards;
+}
+
+@keyframes shoot {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translateX(0);
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translateX(420px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .stars span,
   .orb::after {
@@ -157,6 +186,35 @@ h2 {
 
 .status {
   color: var(--mint-cl);
+}
+
+/* Status light: a pixel LED that pulses beside every status */
+.status::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  vertical-align: 0.1em;
+  background-color: var(--mint-cl);
+  animation: status-pulse 2s ease-out infinite;
+}
+
+@keyframes status-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(77, 227, 193, 0.6);
+  }
+
+  70%,
+  100% {
+    box-shadow: 0 0 0 6px rgba(77, 227, 193, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status::before {
+    animation: none;
+  }
 }
 
 /* Tags (shared by projects and skills) */
@@ -213,6 +271,23 @@ header {
   box-shadow:
     -24px 0 0 var(--dark-bg),
     24px 0 0 var(--dark-bg);
+}
+
+/* Launch progress: a segmented fuel gauge over the header's bottom border.
+   index.js sets --progress (0 to 1) on scroll; clipping keeps the segments from squashing */
+header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: repeating-linear-gradient(
+    to right,
+    var(--mint-cl) 0 10px,
+    transparent 10px 12px
+  );
+  clip-path: inset(0 calc((1 - var(--progress, 0)) * 100%) 0 0);
 }
 
 #home-link {
@@ -386,6 +461,11 @@ header {
   border: 2px solid var(--purple-ash-cl);
 }
 
+/* Boot sequence: status light stays off until the badge has finished typing */
+.badge.booting .status::before {
+  visibility: hidden;
+}
+
 #about .desc {
   margin: 20px 0 0;
 }
@@ -404,12 +484,49 @@ header {
   display: flex;
   flex-direction: column;
   border: 2px solid var(--purple-ash-cl);
-  background-color: var(--card-bg);
+  background-color: var(--card-bg-transparent);
   padding: 14px;
+  /* Hover lift uses `translate` so it doesn't fight the scroll reveal's `transform`.
+     This shorthand replaces .reveal's, so its opacity/transform fade (and stagger) is repeated here */
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease,
+    translate 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+  transition-delay: calc(var(--i, 0) * 90ms), calc(var(--i, 0) * 90ms), 0s, 0s, 0s;
 }
 
 .card:hover {
   border-color: var(--mint-cl);
+  translate: 0 -6px;
+  box-shadow:
+    0 8px 0 var(--dark-bg),
+    0 0 24px rgba(77, 227, 193, 0.25);
+}
+
+/* Screenshot slowly zooms in while the card is hovered */
+.card .screen img {
+  transition: scale 2.5s ease-out;
+}
+
+.card:hover .screen img {
+  scale: 1.08;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card .screen img {
+    transition: none !important;
+  }
+
+  .card:hover {
+    translate: none;
+  }
+
+  .card:hover .screen img {
+    scale: none;
+  }
 }
 
 .card-head {
@@ -554,6 +671,31 @@ header {
   }
 }
 
+/* Konami code entered: the placeholder lights up like a real mission */
+.future.unlocked {
+  border-style: solid;
+  border-color: var(--mint-cl);
+  color: var(--mint-cl);
+  animation: unlock-flash 0.6s steps(2) 3;
+}
+
+/* Beats the card-layout header colour above */
+.project-grid .future.unlocked .future-head {
+  color: var(--mint-cl);
+}
+
+@keyframes unlock-flash {
+  50% {
+    background-color: rgba(77, 227, 193, 0.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .future.unlocked {
+    animation: none;
+  }
+}
+
 /* ============================================
    SKILLS
    ============================================ */
@@ -604,6 +746,26 @@ header {
   color: var(--pink-cl);
 }
 
+/* Tag hover: a little hop plus a glow in the tag's own colour.
+   The hop animates `translate` so it doesn't touch the scroll reveal's `transform` */
+.tags span:hover {
+  background-color: color-mix(in srgb, currentColor 15%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, currentColor 45%, transparent);
+  animation: tag-hop 0.4s ease-out;
+}
+
+@keyframes tag-hop {
+  40% {
+    translate: 0 -5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tags span:hover {
+    animation: none;
+  }
+}
+
 .frontend {
   color: var(--mint-cl);
 }
@@ -639,6 +801,61 @@ footer p {
   padding: 24px 0;
   text-align: center;
   color: var(--purple-ash-cl);
+}
+
+/* Typewriter (footer + boot sequence): index.js splits text into typed / not-yet-typed parts.
+   The untyped part stays in the layout (just invisible) so lines don't shift */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.untyped {
+  visibility: hidden;
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.1em;
+  background-color: currentColor;
+  animation: cursor-blink 1s steps(1) infinite;
+}
+
+@keyframes cursor-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   CUSTOM CURSOR (mouse / trackpad only)
+   ============================================ */
+
+@media (hover: hover) and (pointer: fine) {
+  /* Pixel crosshair, hotspot in the centre */
+  html {
+    cursor:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cg fill='%23e8ecf5'%3E%3Crect x='11' y='2' width='2' height='6'/%3E%3Crect x='11' y='16' width='2' height='6'/%3E%3Crect x='2' y='11' width='6' height='2'/%3E%3Crect x='16' y='11' width='6' height='2'/%3E%3Crect x='11' y='11' width='2' height='2'/%3E%3C/g%3E%3C/svg%3E")
+        12 12,
+      crosshair;
+  }
+
+  /* Over something clickable: turns mint and "locks on" with corner brackets */
+  a,
+  button,
+  #menu-toggle {
+    cursor:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cg fill='%234de3c1'%3E%3Crect x='11' y='5' width='2' height='4'/%3E%3Crect x='11' y='15' width='2' height='4'/%3E%3Crect x='5' y='11' width='4' height='2'/%3E%3Crect x='15' y='11' width='4' height='2'/%3E%3Crect x='11' y='11' width='2' height='2'/%3E%3Crect x='1' y='1' width='6' height='2'/%3E%3Crect x='1' y='1' width='2' height='6'/%3E%3Crect x='17' y='1' width='6' height='2'/%3E%3Crect x='21' y='1' width='2' height='6'/%3E%3Crect x='1' y='21' width='6' height='2'/%3E%3Crect x='1' y='17' width='2' height='6'/%3E%3Crect x='17' y='21' width='6' height='2'/%3E%3Crect x='21' y='17' width='2' height='6'/%3E%3C/g%3E%3C/svg%3E")
+        12 12,
+      pointer;
+  }
 }
 
 /* ============================================
