@@ -288,6 +288,12 @@ h2 {
   color: var(--mint-cl);
 }
 
+.general-link {
+  color: var(--mint-cl);
+  font-weight: bold;
+  text-decoration: none;
+}
+
 /* ============================================
    HEADER
    ============================================ */
