@@ -152,6 +152,52 @@ if (!reduceMotion) {
   setTimeout(launchShootingStar, 3000);
 }
 
+// Warp effect: jumping via the nav stretches the stars into streaks for the trip
+let warpTimer;
+
+function endWarp() {
+  clearTimeout(warpTimer);
+  starfield.classList.remove("warping");
+}
+
+function warp(direction) {
+  const goingUp = direction < 0;
+  // Streaks trail behind the stars: below them going down the page, above going up
+  starfield.style.setProperty("--warp-origin", goingUp ? "bottom" : "top");
+  starfield.classList.toggle("warp-up", goingUp);
+  starfield.classList.add("warping");
+
+  for (let i = 0; i < 24; i++) {
+    const streak = document.createElement("span");
+    streak.className = "warp-streak";
+    streak.style.left = `${Math.random() * 100}vw`;
+    streak.style.top = `${Math.random() * 100}vh`;
+    streak.style.height = `${40 + Math.random() * 80}px`;
+    streak.style.animationDelay = `${Math.random() * 250}ms`;
+    streak.addEventListener("animationend", () => streak.remove());
+    starfield.appendChild(streak);
+  }
+
+  // Drop out of warp when the smooth scroll lands (with a fallback for older browsers)
+  clearTimeout(warpTimer);
+  window.addEventListener("scrollend", endWarp, { once: true });
+  warpTimer = setTimeout(endWarp, 1200);
+}
+
+if (!reduceMotion) {
+  document.querySelectorAll("#home-link, #nav-links a").forEach((link) => {
+    link.addEventListener("click", () => {
+      const id = link.getAttribute("href").slice(1);
+      const target = id ? document.getElementById(id) : null;
+      const distance = target
+        ? target.getBoundingClientRect().top - header.offsetHeight
+        : -window.scrollY;
+      // Already (nearly) there: no trip, no warp
+      if (Math.abs(distance) > 80) warp(distance);
+    });
+  });
+}
+
 // Konami code: unlocks the "Classified" mission placeholder
 const konamiCode = [
   "arrowup", "arrowup", "arrowdown", "arrowdown",

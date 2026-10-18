@@ -175,43 +175,86 @@
         <section id="skills">
           <p class="label mono">03 / Skills</p>
           <h2 class="pixel">Onboard Equipment</h2>
-          <div class="bay">
-            <div class="bay-label mono">Bay A / <span class="frontend">Frontend</span></div>
-            <div class="tags mono frontend">
-              <span>HTML</span>
-              <span>CSS</span>
-              <span>JavaScript</span>
-              <span>React</span>
-              <span>Node</span>
-              <span>Vue.js</span>
+          <!-- Ship schematic: nose on top, one cargo bay per skill group, thrusters firing down -->
+          <div class="ship">
+            <div class="ship-nose" aria-hidden="true"></div>
+            <div class="hull">
+              <span class="fin left" aria-hidden="true"></span>
+              <span class="fin right" aria-hidden="true"></span>
+              <span class="fin-tip left" aria-hidden="true"></span>
+              <span class="fin-tip right" aria-hidden="true"></span>
+              <div class="hull-strip mono">
+                <span>↑ Fwd / Bridge</span>
+                <span>Vessel syafaat_saat.dev</span>
+              </div>
+              <div class="bay frontend">
+                <div class="bay-label mono">
+                  <span>Bay A / <b>Frontend</b></span>
+                  <span class="bay-count">06 items</span>
+                </div>
+                <div class="tags mono frontend">
+                  <span>HTML</span>
+                  <span>CSS</span>
+                  <span>JavaScript</span>
+                  <span>React</span>
+                  <span>Node</span>
+                  <span>Vue.js</span>
+                </div>
+              </div>
+              <div class="bay backend">
+                <div class="bay-label mono">
+                  <span>Bay B / <b>Backend</b></span>
+                  <span class="bay-count">03 items</span>
+                </div>
+                <div class="tags mono backend">
+                  <span>Python</span>
+                  <span>Node.js</span>
+                  <span>C++</span>
+                </div>
+              </div>
+              <div class="bay tools">
+                <div class="bay-label mono">
+                  <span>Bay C / <b>Tools</b></span>
+                  <span class="bay-count">06 items</span>
+                </div>
+                <div class="tags mono tools">
+                  <span>Visual Studio Code</span>
+                  <span>npm</span>
+                  <span>Webpack</span>
+                  <span>Nuxt</span>
+                  <span>Jest</span>
+                  <span>Tailwind CSS</span>
+                </div>
+              </div>
+              <div class="bay principles">
+                <div class="bay-label mono">
+                  <span>Bay D / <b>Principles</b></span>
+                  <span class="bay-count">04 items</span>
+                </div>
+                <div class="tags mono principles">
+                  <span>Object-Oriented Programming</span>
+                  <span>Data Structures</span>
+                  <span>Problem Solving</span>
+                  <span>SOLID Principles</span>
+                </div>
+              </div>
+              <div class="hull-strip mono">
+                <span>↓ Aft / Engines</span>
+              </div>
             </div>
-          </div>
-          <div class="bay">
-            <div class="bay-label mono">Bay B / <span class="backend">Backend</span></div>
-            <div class="tags mono backend">
-              <span>Python</span>
-              <span>Node.js</span>
-              <span>C++</span>
-            </div>
-          </div>
-          <div class="bay">
-            <div class="bay-label mono">Bay C / <span class="tools">Tools</span></div>
-            <div class="tags mono tools">
-              <span>Visual Studio Code</span>
-              <span>npm</span>
-              <span>Webpack</span>
-              <span>Nuxt</span>
-              <span>Jest</span>
-              <span>Tailwind CSS</span>
-            </div>
-          </div>
-          <div class="bay">
-            <div class="bay-label mono">Bay D / <span class="principles">Principles</span></div>
-            <div class="tags mono principles">
-              <span>Object-Oriented Programming</span>
-              <span>Data Structures</span>
-              <span>Problem Solving</span>
-              <span>SOLID Principles</span>
+            <div class="thrusters" aria-hidden="true">
+              <div class="thruster">
+                <span class="engine"></span>
+                <span class="flame"></span>
+                <span class="flame"></span>
+                <span class="flame"></span>
+              </div>
+              <div class="thruster">
+                <span class="engine"></span>
+                <span class="flame"></span>
+                <span class="flame"></span>
+                <span class="flame"></span>
+              </div>
             </div>
           </div>
         </section>

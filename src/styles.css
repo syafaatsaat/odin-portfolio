@@ -150,6 +150,48 @@ body {
   }
 }
 
+/* Warp effect: while a nav link jumps the page, index.js adds .warping and the stars
+   stretch into streaks trailing behind the direction of travel */
+.stars span:not(.shooting-star, .warp-streak) {
+  transform-origin: var(--warp-origin, center);
+  transition: transform 0.5s ease-out;
+}
+
+.stars.warping span:not(.shooting-star, .warp-streak) {
+  transform: scaleY(30);
+  transition-duration: 0.2s;
+}
+
+/* Extra streaks flung across the viewport, so the warp shows wherever the page is.
+   They fly upward (the page scrolling down); .warp-up mirrors them for jumps back up */
+.stars .warp-streak {
+  position: fixed;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--white-cl), transparent);
+  opacity: 0;
+  animation: warp-streak 0.6s ease-in forwards;
+}
+
+.stars.warp-up .warp-streak {
+  scale: 1 -1;
+}
+
+@keyframes warp-streak {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scaleY(0.3);
+  }
+
+  30% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-60vh) scaleY(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .stars span,
   .orb::after {
@@ -700,28 +742,179 @@ header::after {
    SKILLS
    ============================================ */
 
+/* Ship schematic: nose cone, hull holding the bays, thrusters underneath */
+.ship {
+  --hull-cl: var(--purple-ash-cl);
+  /* Shared by the nose and hull; leaves room for the side fins on either side */
+  --hull-width: min(720px, 100% - 120px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Nose cone: a hull-coloured triangle with a slightly smaller card-coloured one inside,
+   which leaves just the outline showing */
+.ship-nose {
+  position: relative;
+  width: var(--hull-width);
+  height: 140px;
+  background-color: var(--hull-cl);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.ship-nose::before {
+  content: "";
+  position: absolute;
+  inset: 5px 2px 0;
+  background-color: var(--card-bg);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+/* Porthole */
+.ship-nose::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 32px;
+  width: 36px;
+  height: 36px;
+  translate: -50% 0;
+  border: 2px solid var(--mint-cl);
+  border-radius: 50%;
+  background-color: rgba(77, 227, 193, 0.12);
+}
+
+.hull {
+  position: relative;
+  width: var(--hull-width);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 20px 16px;
+  border: 2px solid var(--hull-cl);
+  border-top: none;
+  background-color: var(--card-bg);
+}
+
+.hull-strip {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted-cl);
+  font-size: 12px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--blue-ash-cl);
+}
+
+.hull-strip:last-child {
+  padding: 10px 0 0;
+  border-bottom: none;
+  border-top: 2px solid var(--blue-ash-cl);
+}
+
+/* Side fins along the lower hull, each with a triangular tip flaring down below it */
+.fin,
+.fin-tip {
+  position: absolute;
+  background-color: var(--hull-cl);
+}
+
+.fin {
+  bottom: -2px;
+  width: 52px;
+  height: 180px;
+}
+
+.fin.left {
+  left: -54px;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 45%);
+}
+
+.fin.right {
+  right: -54px;
+  clip-path: polygon(0 0, 100% 45%, 100% 100%, 0 100%);
+}
+
+.fin-tip {
+  bottom: -58px;
+  width: 110px;
+  height: 56px;
+}
+
+.fin-tip.left {
+  left: -54px;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.fin-tip.right {
+  right: -54px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+.thrusters {
+  display: flex;
+  gap: 260px;
+}
+
+/* Engine block with a stepped pixel flame below it */
+.thruster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.thruster .engine {
+  width: 80px;
+  height: 30px;
+  background-color: var(--hull-cl);
+  border: 2px solid var(--blue-ash-cl);
+}
+
+.thruster .flame {
+  width: 28px;
+  height: 22px;
+  background-color: var(--coral-cl);
+}
+
+.thruster .flame:nth-child(3) {
+  width: 18px;
+  height: 14px;
+  opacity: 0.65;
+}
+
+.thruster .flame:nth-child(4) {
+  width: 10px;
+  height: 10px;
+  opacity: 0.35;
+}
+
+/* One cargo bay per skill group, outlined in its category colour */
 .bay {
   display: flex;
-  align-items: baseline;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-top: 14px;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px;
+  border: 2px solid var(--bay-cl);
+  background-color: color-mix(in srgb, var(--bay-cl) 6%, transparent);
 }
+
+.bay.frontend { --bay-cl: var(--mint-cl); }
+.bay.backend { --bay-cl: var(--coral-cl); }
+.bay.tools { --bay-cl: var(--blue-cl); }
+.bay.principles { --bay-cl: var(--pink-cl); }
 
 .bay-label {
-  flex: none;
-  width: 220px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
   color: var(--muted-cl);
+  font-size: 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px dashed color-mix(in srgb, var(--bay-cl) 35%, transparent);
 }
 
-.bay-label span {
-  font-weight: bold;
-}
-
-/* Tags take the remaining width and wrap within their own column */
-.bay .tags {
-  flex: 1;
-  min-width: 0;
+.bay-label b {
+  color: var(--bay-cl);
 }
 
 .tags span {
@@ -945,7 +1138,77 @@ footer p {
   .project-grid {
     grid-template-columns: 1fr;
   }
+
+  /* Ship fills the column: no side fins, just the tips flaring down from the hull's corners */
+  .ship {
+    --hull-width: 100%;
+  }
+
+  .ship-nose {
+    height: 80px;
+  }
+
+  .ship-nose::after {
+    bottom: 12px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .hull {
+    padding: 10px;
+    gap: 12px;
+  }
+
+  .hull-strip {
+    font-size: 11px;
+  }
+
+  .fin {
+    display: none;
+  }
+
+  .fin-tip {
+    width: 56px;
+  }
+
+  .fin-tip.left {
+    left: -2px;
+  }
+
+  .fin-tip.right {
+    right: -2px;
+  }
+
+  .thrusters {
+    gap: 120px;
+  }
+
+  .thruster .engine {
+    width: 56px;
+    height: 24px;
+  }
+
+  .thruster .flame {
+    width: 20px;
+    height: 18px;
+  }
+
+  .thruster .flame:nth-child(3) {
+    width: 12px;
+    height: 12px;
+  }
+
+  .thruster .flame:nth-child(4) {
+    width: 6px;
+    height: 8px;
+  }
+
+  .bay {
+    padding: 10px;
+    gap: 12px;
+  }
+
   .bay-label {
-    width: 100%;
+    font-size: 13px;
   }
 }
