@@ -73,27 +73,23 @@ body {
   width: 2px;
   height: 2px;
   background-color: var(--muted-cl);
-  animation: twinkle 4s ease-in-out infinite;
+  /* Timing comes from variables so shooting stars and warp streaks (also spans in here)
+     keep their own animations instead of picking up the twinkle timings below */
+  animation: twinkle var(--twinkle-duration, 4s) ease-in-out var(--twinkle-delay, 0s) infinite;
 }
 
 /* Vary speed and timing so the stars never pulse together */
-.stars span:nth-child(3n + 1) {
-  animation-duration: 5.2s;
-}
+.stars span:nth-child(3n + 1) { --twinkle-duration: 5.2s; }
+.stars span:nth-child(3n + 2) { --twinkle-duration: 3.4s; }
 
-.stars span:nth-child(3n + 2) {
-  animation-duration: 3.4s;
-}
-
-.stars span:nth-child(2) { animation-delay: -1.1s; }
-.stars span:nth-child(3) { animation-delay: -2.7s; }
-.stars span:nth-child(4) { animation-delay: -0.6s; }
-.stars span:nth-child(5) { animation-delay: -3.3s; }
-.stars span:nth-child(6) { animation-delay: -1.9s; }
-.stars span:nth-child(7) { animation-delay: -4.1s; }
-.stars span:nth-child(8) { animation-delay: -0.3s; }
-.stars span:nth-child(9) { animation-delay: -2.2s; }
-.stars span:nth-child(10) { animation-delay: -3.8s; }
+/* Delays cycle every 7 stars; with the 3-step speed cycle above, the combination
+   only repeats every 21 stars, so neighbours never sync up */
+.stars span:nth-child(7n + 2) { --twinkle-delay: -1.1s; }
+.stars span:nth-child(7n + 3) { --twinkle-delay: -2.7s; }
+.stars span:nth-child(7n + 4) { --twinkle-delay: -0.6s; }
+.stars span:nth-child(7n + 5) { --twinkle-delay: -3.3s; }
+.stars span:nth-child(7n + 6) { --twinkle-delay: -1.9s; }
+.stars span:nth-child(7n + 7) { --twinkle-delay: -4.1s; }
 
 @keyframes twinkle {
   0%,
@@ -441,7 +437,7 @@ header::after {
   flex: 1;
   min-width: 260px;
   border: 2px solid var(--purple-ash-cl);
-  background-color: var(--card-bg);
+  background-color: var(--card-bg-transparent);
   padding: 20px;
 }
 
@@ -752,22 +748,23 @@ header::after {
   align-items: center;
 }
 
-/* Nose cone: a hull-coloured triangle with a slightly smaller card-coloured one inside,
-   which leaves just the outline showing */
+/* Nose cone: a triangle filled like the hull, with its outline drawn on top as a
+   thin Λ strip (so the fill can be see-through without the outline colour showing behind it) */
 .ship-nose {
   position: relative;
   width: var(--hull-width);
   height: 140px;
-  background-color: var(--hull-cl);
+  background-color: var(--card-bg-transparent);
   clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 
 .ship-nose::before {
   content: "";
   position: absolute;
-  inset: 5px 2px 0;
-  background-color: var(--card-bg);
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  inset: 0;
+  background-color: var(--hull-cl);
+  /* Down the outer edges, then back up the inner edges 2px in (5px at the tip) */
+  clip-path: polygon(50% 0, 100% 100%, calc(100% - 2px) 100%, 50% 5px, 2px 100%, 0 100%);
 }
 
 /* Porthole */
@@ -793,7 +790,7 @@ header::after {
   padding: 14px 20px 16px;
   border: 2px solid var(--hull-cl);
   border-top: none;
-  background-color: var(--card-bg);
+  background-color: var(--card-bg-transparent);
 }
 
 .hull-strip {
